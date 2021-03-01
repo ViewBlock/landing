@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { Page, Link, Spacer, Text, Divider, Grid } from "@geist-ui/react";
 import Logo from "../components/Logo";
@@ -13,6 +14,7 @@ const Partners = [
 ];
 
 const Home = () => {
+  const router = useRouter();
   const [logoHovered, setLogoHovered] = useState(false);
 
   return (
@@ -26,7 +28,7 @@ const Home = () => {
         }}
       >
         <Link
-          href="/about"
+          href={`${router.asPath}about`}
           style={{ margin: 0 }}
           onMouseEnter={() => setLogoHovered(true)}
           onMouseLeave={() => setLogoHovered(false)}

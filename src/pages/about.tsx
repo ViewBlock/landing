@@ -1,13 +1,15 @@
+import { useRouter } from "next/router";
 import { useMediaQuery, Page, Row, Link, Spacer, Text } from "@geist-ui/react";
 import { Twitter } from "react-feather";
 
 const About = () => {
+  const router = useRouter();
   const isMobile = useMediaQuery("mobile");
 
   return (
     <Page size="small">
       <Row align="middle" justify="space-between">
-        <Link href="/">
+        <Link href={`${router.asPath.split(router.pathname)[0]}/`}>
           <svg
             height="20"
             viewBox="0 0 1510 350"
