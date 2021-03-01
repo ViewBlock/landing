@@ -1,13 +1,5 @@
 import { useState } from "react";
-import {
-  useMediaQuery,
-  Page,
-  Link,
-  Spacer,
-  Text,
-  Divider,
-  Grid,
-} from "@geist-ui/react";
+import { Page, Link, Spacer, Text, Divider, Grid } from "@geist-ui/react";
 import Logo from "../components/Logo";
 
 const Partners = [
@@ -21,7 +13,6 @@ const Partners = [
 ];
 
 const Home = () => {
-  const isMobile = useMediaQuery("mobile");
   const [logoHovered, setLogoHovered] = useState(false);
 
   return (
@@ -58,7 +49,7 @@ const Home = () => {
         </Text>
         <Spacer y={1} />
         <Divider>Partners</Divider>
-        <Grid.Container gap={isMobile ? 2 : 5} justify="center">
+        <Grid.Container gap={3} justify="center">
           {Partners.map((partner) => (
             <Grid key={partner.name} style={{ paddingBottom: 0 }}>
               <Link target="_blank" href={partner.link}>
