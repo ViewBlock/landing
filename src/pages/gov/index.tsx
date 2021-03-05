@@ -71,7 +71,14 @@ const Gov = (props: { state: any; height: number }) => {
         <Card style={{ border: "1px dashed #333" }}>
           <Text h3>Vault</Text>
           <Text b type="secondary">
-            WIP
+            {Object.keys(state.vault)
+              .map((addr) =>
+                state.vault[addr]
+                  .map((element) => element.amount)
+                  .reduce((a, b) => a + b, 0)
+              )
+              .reduce((a, b) => a + b, 0)}{" "}
+            $KYVE Locked
           </Text>
           <Card.Footer style={{ borderTop: "1px dashed #333" }}>
             <Code style={{ color: "#a76c6e" }}>/vault</Code>
