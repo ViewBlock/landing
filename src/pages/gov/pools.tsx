@@ -1,14 +1,6 @@
 import Arweave from "arweave";
 import { useState, useEffect } from "react";
-import {
-  Page,
-  Row,
-  Card,
-  Text,
-  Spacer,
-  Link,
-  Spinner,
-} from "@geist-ui/react";
+import { Page, Row, Card, Text, Spacer, Link, Spinner } from "@geist-ui/react";
 
 const client = new Arweave({
   host: "arweave.net",
@@ -67,8 +59,6 @@ const Pools = (props: { state: any; height: number }) => {
             style={{
               height: "1em",
               width: "1em",
-              margin: "0 .05em 0 .1em",
-              verticalAlign: "-0.1em",
             }}
           />
         </Row>
