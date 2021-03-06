@@ -5,12 +5,15 @@ import { useState, useEffect } from "react";
 import {
   useModal,
   useInput,
+  useToasts,
   Page,
   Spacer,
   Table,
   Text,
   Button,
   Modal,
+  Row,
+  Input,
 } from "@geist-ui/react";
 import Nav from "../../components/Governance/Nav";
 import Footer from "../../components/Governance/Footer";
@@ -41,6 +44,7 @@ const Vault = (props: { state: any; height: number }) => {
   const modal = useModal();
   const amount = useInput("0");
   const length = useInput("0");
+  const [_, setToast] = useToasts();
 
   return (
     <Page>
@@ -75,7 +79,7 @@ const Vault = (props: { state: any; height: number }) => {
                 You don't have any tokens locked.
               </Text>
               <Spacer y={1} />
-              <Button disabled onClick={() => modal.setVisible(true)}>
+              <Button onClick={() => modal.setVisible(true)}>
                 Lock Tokens
               </Button>
             </div>
@@ -96,7 +100,67 @@ const Vault = (props: { state: any; height: number }) => {
         </div>
       )}
       {/* TODO(@johnletey): Modal */}
-      <Modal {...modal.bindings}></Modal>
+      <Modal {...modal.bindings}>
+        <Modal.Title>Lock Tokens</Modal.Title>
+        <Modal.Content>
+          <Row justify="center">
+            <span>
+              <Input
+                {...amount.bindings}
+                type="number"
+                labelRight="$KYVE"
+                min={0}
+                max={address in state.balances ? state.balances[address] : 0}
+                width="100%"
+              />
+              <Spacer y={1} />
+              <Input
+                {...length.bindings}
+                type="number"
+                labelRight="blocks"
+                min={0}
+                width="100%"
+              />
+            </span>
+          </Row>
+        </Modal.Content>
+        <Modal.Action passive onClick={() => modal.setVisible(false)}>
+          Cancel
+        </Modal.Action>
+        <Modal.Action
+          onClick={async () => {
+            const tx = await client.createTransaction({
+              data: Math.random().toString().slice(-4),
+            });
+
+            tx.addTag("App-Name", "SmartWeaveAction");
+            tx.addTag("App-Version", "0.3.0");
+            tx.addTag(
+              "Contract",
+              "z7oP5KYMnPnSqWE81hM1BvewB7bJMwiOJtAl3JIl4_w"
+            );
+            tx.addTag(
+              "Input",
+              JSON.stringify({
+                function: "lock",
+                qty: amount.state,
+                length: length.state,
+              })
+            );
+
+            await client.transactions.sign(tx);
+            await client.transactions.post(tx);
+
+            setToast({ text: `Locked. ${tx.id}` });
+            modal.setVisible(false);
+
+            amount.reset();
+            length.reset();
+          }}
+        >
+          Lock
+        </Modal.Action>
+      </Modal>
       <Footer name="Vault" height={height} />
     </Page>
   );
