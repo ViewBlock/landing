@@ -1,15 +1,8 @@
 import Arweave from "arweave";
-import { useState, useEffect } from "react";
-import {
-  Page,
-  Row,
-  Card,
-  Text,
-  Code,
-  Spacer,
-  Link,
-  Spinner,
-} from "@geist-ui/react";
+import useContract from "../../hooks/useContract";
+import { Page, Row, Card, Text, Code, Spacer } from "@geist-ui/react";
+import Nav from "../../components/Governance/Nav";
+import Footer from "../../components/Governance/Footer";
 
 const client = new Arweave({
   host: "arweave.net",
@@ -18,22 +11,14 @@ const client = new Arweave({
 });
 
 const Gov = (props: { state: any; height: number }) => {
-  const [state, setState] = useState(props.state);
-  const [height, setHeight] = useState(props.height);
-
-  useEffect(() => {
-    setInterval(async () => {
-      const res = await fetch("https://cache.kyve.network");
-      const state = await res.json();
-
-      setState(state);
-      setHeight((await client.network.getInfo()).height);
-    }, 60000);
-  }, []);
+  const { state, height } = useContract({
+    state: props.state,
+    height: props.height,
+  });
 
   return (
     <Page>
-      {/* TODO: Nav */}
+      <Nav />
       <Row justify="space-around">
         <Card style={{ border: "1px dashed #333" }}>
           <Text h3>Tokens</Text>
@@ -86,31 +71,7 @@ const Gov = (props: { state: any; height: number }) => {
         </Card>
         <Spacer x={1} />
       </Row>
-      <div
-        style={{
-          position: "absolute",
-          top: "95%",
-          left: "100%",
-          transform: "translateX(-100%) translateY(-95%)",
-        }}
-      >
-        <Row align="middle">
-          <Link
-            underline
-            target="_blank"
-            href={`https://viewblock.io/arweave/block/${height}`}
-          >
-            <Text b>{height}</Text>
-          </Link>
-          <Spacer x={0.5} />
-          <Spinner
-            style={{
-              height: "1em",
-              width: "1em",
-            }}
-          />
-        </Row>
-      </div>
+      <Footer height={height} />
     </Page>
   );
 };

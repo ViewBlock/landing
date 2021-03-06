@@ -48,23 +48,20 @@ const Vault = (props: { state: any; height: number }) => {
       {connected ? (
         <>
           {address in state.vault ? (
-            <>
-              <Spacer y={1} />
-              <Table
-                data={state.vault[address].map((entry) => {
-                  return {
-                    amount: <Text>{entry.amount} $KYVE</Text>,
-                    status:
-                      entry.end < height
-                        ? "Ended."
-                        : `Ends in ${entry.end - height} blocks.`,
-                  };
-                })}
-              >
-                <Table.Column prop="amount" label="Amount" />
-                <Table.Column prop="status" label="Status" />
-              </Table>
-            </>
+            <Table
+              data={state.vault[address].map((entry) => {
+                return {
+                  amount: <Text>{entry.amount} $KYVE</Text>,
+                  status:
+                    entry.end < height
+                      ? "Ended."
+                      : `Ends in ${entry.end - height} blocks.`,
+                };
+              })}
+            >
+              <Table.Column prop="amount" label="Amount" />
+              <Table.Column prop="status" label="Status" />
+            </Table>
           ) : (
             <div
               style={{

@@ -1,15 +1,9 @@
 import Arweave from "arweave";
+import useContract from "../../hooks/useContract";
 import { useState, useEffect } from "react";
-import {
-  Link,
-  Code,
-  Text,
-  Page,
-  Table,
-  Row,
-  Spacer,
-  Spinner,
-} from "@geist-ui/react";
+import { Link, Code, Text, Page, Table } from "@geist-ui/react";
+import Nav from "../../components/Governance/Nav";
+import Footer from "../../components/Governance/Footer";
 
 const client = new Arweave({
   host: "arweave.net",
@@ -18,18 +12,10 @@ const client = new Arweave({
 });
 
 const Tokens = (props: { state: any; height: number }) => {
-  const [state, setState] = useState(props.state);
-  const [height, setHeight] = useState(props.height);
-
-  useEffect(() => {
-    setInterval(async () => {
-      const res = await fetch("https://cache.kyve.network");
-      const state = await res.json();
-
-      setState(state);
-      setHeight((await client.network.getInfo()).height);
-    }, 60000);
-  }, []);
+  const { state, height } = useContract({
+    state: props.state,
+    height: props.height,
+  });
 
   const [data, setData] = useState([]);
 
@@ -63,37 +49,13 @@ const Tokens = (props: { state: any; height: number }) => {
 
   return (
     <Page>
-      {/* TODO: Nav */}
+      <Nav />
       <Table data={data}>
         <Table.Column prop="address" label="Address" />
         <Table.Column prop="balance" label="Balance" />
         <Table.Column prop="locked" label="Locked Balance" />
       </Table>
-      <div
-        style={{
-          position: "absolute",
-          top: "95%",
-          left: "100%",
-          transform: "translateX(-100%) translateY(-95%)",
-        }}
-      >
-        <Row align="middle">
-          <Link
-            underline
-            target="_blank"
-            href={`https://viewblock.io/arweave/block/${height}`}
-          >
-            <Text b>{height}</Text>
-          </Link>
-          <Spacer x={0.5} />
-          <Spinner
-            style={{
-              height: "1em",
-              width: "1em",
-            }}
-          />
-        </Row>
-      </div>
+      <Footer height={height} />
     </Page>
   );
 };
