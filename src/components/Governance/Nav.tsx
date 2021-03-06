@@ -1,7 +1,9 @@
+import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { Row, Button, Spacer } from "@geist-ui/react";
 
 const Nav = () => {
+  const router = useRouter();
   const [hasWallet, setHasWallet] = useState(false);
   const [connected, setConnected] = useState(false);
 
@@ -25,6 +27,8 @@ const Nav = () => {
       setConnected(true);
     }
   }
+
+  console.log(router);
 
   return (
     <>

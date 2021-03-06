@@ -32,7 +32,7 @@ const Pools = (props: { state: any; height: number }) => {
           </>
         ))}
       </Row>
-      <Footer height={height} />
+      <Footer name="Pools" height={height} />
     </Page>
   );
 };

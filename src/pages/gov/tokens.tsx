@@ -55,7 +55,7 @@ const Tokens = (props: { state: any; height: number }) => {
         <Table.Column prop="balance" label="Balance" />
         <Table.Column prop="locked" label="Locked Balance" />
       </Table>
-      <Footer height={height} />
+      <Footer name="Tokens" height={height} />
     </Page>
   );
 };

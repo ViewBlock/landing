@@ -80,7 +80,6 @@ const Vault = (props: { state: any; height: number }) => {
               </Button>
             </div>
           )}
-          <Footer height={height} />
         </>
       ) : (
         <div
@@ -98,6 +97,7 @@ const Vault = (props: { state: any; height: number }) => {
       )}
       {/* TODO(@johnletey): Modal */}
       <Modal {...modal.bindings}></Modal>
+      <Footer name="Vault" height={height} />
     </Page>
   );
 };
