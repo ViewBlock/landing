@@ -1,10 +1,11 @@
+import { useMediaQuery, Link, Code, Text, Page, Table } from "@geist-ui/react";
 import useContract from "../../hooks/useContract";
 import { useState, useEffect } from "react";
-import { Link, Code, Text, Page, Table } from "@geist-ui/react";
 import Nav from "../../components/Governance/Nav";
 import Footer from "../../components/Governance/Footer";
 
 const Tokens = () => {
+  const isMobile = useMediaQuery("mobile");
   const { state, height } = useContract();
   const [data, setData] = useState([]);
 
@@ -20,13 +21,18 @@ const Tokens = () => {
                 .reduce((a, b) => a + b, 0)
             : 0;
 
+        const formatted =
+          addr.slice(0, 5) + "..." + addr.slice(addr.length - 5, addr.length);
+
         data.push({
           address: (
             <Link
               target="_blank"
               href={`https://viewblock.io/arweave/address/${addr}`}
             >
-              <Code style={{ color: "#a76c6e" }}>{addr}</Code>
+              <Code style={{ color: "#a76c6e" }}>
+                {isMobile ? formatted : addr}
+              </Code>
             </Link>
           ),
           balance: <Text>{balance} $KYVE</Text>,

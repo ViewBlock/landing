@@ -1,5 +1,5 @@
 import useContract from "../../hooks/useContract";
-import { Page, Row, Card, Text, Spacer } from "@geist-ui/react";
+import { Page, Grid, Card, Text } from "@geist-ui/react";
 import Nav from "../../components/Governance/Nav";
 import Footer from "../../components/Governance/Footer";
 
@@ -10,19 +10,18 @@ const Pools = () => {
     <Page>
       <Nav />
       {!loading && (
-        <Row justify="space-around">
+        <Grid.Container gap={1}>
           {Object.keys(state.pools).map((name) => (
-            <>
+            <Grid xs>
               <Card style={{ border: "1px dashed #333" }}>
                 <Text h3>{name}</Text>
                 <Text b type="secondary">
                   {state.pools[name].balance} $KYVE
                 </Text>
               </Card>
-              <Spacer x={1} />
-            </>
+            </Grid>
           ))}
-        </Row>
+        </Grid.Container>
       )}
       <Footer name="Pools" height={height} />
     </Page>
