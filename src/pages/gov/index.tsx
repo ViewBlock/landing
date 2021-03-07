@@ -78,7 +78,7 @@ const Gov = () => {
           </Grid>
         </Grid.Container>
       )}
-      {/* <Footer height={height} /> */}
+      <Footer height={height} />
     </Page>
   );
 };
