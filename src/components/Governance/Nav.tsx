@@ -14,14 +14,12 @@ const Nav = () => {
     if (window.arweaveWallet) {
       tryToConnect();
     } else {
-      addEventListener("arweaveWalletLoaded", async () => {
-        setHasWallet(true);
-        await tryToConnect();
-      });
+      addEventListener("arweaveWalletLoaded", tryToConnect);
     }
   }, []);
 
   async function tryToConnect() {
+    setHasWallet(true);
     const permissions = await window.arweaveWallet.getPermissions();
     if (
       permissions.indexOf("ACCESS_ADDRESS") > -1 &&
