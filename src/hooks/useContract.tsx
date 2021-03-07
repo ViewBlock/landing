@@ -7,21 +7,31 @@ const client = new Arweave({
   protocol: "https",
 });
 
-const useContract = (initial: { state: any; height: number }) => {
-  const [state, setState] = useState(initial.state);
-  const [height, setHeight] = useState(initial.height);
+const useContract = () => {
+  const [loading, setLoading] = useState(true);
+  const [state, setState] = useState(null);
+  const [height, setHeight] = useState(null);
+
+  const fetchData = async () => {
+    const res = await fetch("https://cache.kyve.network");
+    const state = await res.json();
+
+    setState(state);
+    setHeight((await client.network.getInfo()).height);
+  };
 
   useEffect(() => {
-    setInterval(async () => {
-      const res = await fetch("https://cache.kyve.network");
-      const state = await res.json();
+    (async () => {
+      await fetchData();
+      setLoading(false);
 
-      setState(state);
-      setHeight((await client.network.getInfo()).height);
-    }, 60000);
+      setInterval(async () => {
+        await fetchData();
+      }, 60000);
+    })();
   }, []);
 
-  return { state, height };
+  return { loading, state, height };
 };
 
 export default useContract;
