@@ -11,6 +11,7 @@ const Partners = [
   { name: "Cosmos", link: "https://cosmos.network" },
   { name: "Avalanche", link: "https://www.avalabs.org" },
   { name: "Skale", link: "https://skale.network" },
+  { name: "Mina", link: "https://minaprotocol.com" },
 ];
 
 const Home = () => {
