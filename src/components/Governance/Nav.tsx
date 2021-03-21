@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { Row, Link, Button, Spacer } from "@geist-ui/react";
 
-const Nav = ({ children }) => {
+const Nav = ({ children }: { children?: any }) => {
   const router = useRouter();
   const [hasWallet, setHasWallet] = useState(false);
   const [connected, setConnected] = useState(false);
