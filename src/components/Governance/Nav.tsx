@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { Row, Link, Button, Spacer } from "@geist-ui/react";
 
-const Nav = () => {
+const Nav = ({ children }) => {
   const router = useRouter();
   const [hasWallet, setHasWallet] = useState(false);
   const [connected, setConnected] = useState(false);
@@ -45,29 +45,38 @@ const Nav = () => {
             />
           </svg>
         </Link>
-        <Button
-          type="secondary"
-          ghost
-          disabled={connected}
-          onClick={async () => {
-            if (!hasWallet)
-              return window.open(
-                "https://chrome.google.com/webstore/detail/arconnect/einnioafmpimabjcddiinlhmijaionap"
-              );
-            await window.arweaveWallet.connect([
-              "ACCESS_ADDRESS",
-              "SIGN_TRANSACTION",
-            ]);
-            setConnected(true);
-          }}
-          style={{ borderRadius: 0 }}
-        >
-          {hasWallet
-            ? connected
-              ? "Connected"
-              : "Connect"
-            : "Install ArConnect"}
-        </Button>
+        <Row align="middle">
+          {children}
+          <Spacer x={1} />
+          <Button
+            type="secondary"
+            ghost
+            onClick={async () => {
+              if (!hasWallet)
+                return window.open(
+                  "https://chrome.google.com/webstore/detail/arconnect/einnioafmpimabjcddiinlhmijaionap"
+                );
+              if (connected) {
+                // @ts-ignore
+                await window.arweaveWallet.disconnect();
+                setConnected(false);
+              } else {
+                await window.arweaveWallet.connect([
+                  "ACCESS_ADDRESS",
+                  "SIGN_TRANSACTION",
+                ]);
+                setConnected(true);
+              }
+            }}
+            style={{ borderRadius: 0 }}
+          >
+            {hasWallet
+              ? connected
+                ? "Disconnect"
+                : "Connect"
+              : "Install ArConnect"}
+          </Button>
+        </Row>
       </Row>
       <Spacer y={1} />
     </>

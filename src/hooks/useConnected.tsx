@@ -20,6 +20,14 @@ const useConnected = () => {
         ) {
           setConnected(true);
         }
+
+        if (
+          event.data.ext === "arconnect" &&
+          event.data.type === "disconnect_result" &&
+          event.data.res
+        ) {
+          setConnected(false);
+        }
       }
     });
   }, []);

@@ -1,14 +1,26 @@
+import useConnected from "../../hooks/useConnected";
 import useContract from "../../hooks/useContract";
 import { Page, Grid, Card, Text } from "@geist-ui/react";
 import Nav from "../../components/Governance/Nav";
+import { DatabaseIcon } from "@primer/octicons-react";
 import Footer from "../../components/Governance/Footer";
 
 const Pools = () => {
+  const connected = useConnected();
   const { loading, state, height } = useContract();
 
   return (
     <Page>
-      <Nav />
+      <Nav>
+        {connected && (
+          <span
+            // onClick={() => modal.setVisible(true)}
+            style={{ cursor: "pointer" }}
+          >
+            <DatabaseIcon />
+          </span>
+        )}
+      </Nav>
       {!loading && (
         <Grid.Container gap={1}>
           {Object.keys(state.pools).map((name) => (

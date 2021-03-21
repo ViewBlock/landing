@@ -17,6 +17,7 @@ import {
 } from "@geist-ui/react";
 import Nav from "../../components/Governance/Nav";
 import Footer from "../../components/Governance/Footer";
+import { LockIcon } from "@primer/octicons-react";
 
 const client = new Arweave({
   host: "arweave.net",
@@ -45,7 +46,16 @@ const Vault = () => {
 
   return (
     <Page>
-      <Nav />
+      <Nav>
+        {connected && (
+          <span
+            onClick={() => modal.setVisible(true)}
+            style={{ cursor: "pointer" }}
+          >
+            <LockIcon />
+          </span>
+        )}
+      </Nav>
       {connected && !loading ? (
         <>
           {address in state.vault ? (

@@ -1,14 +1,18 @@
 import { useMediaQuery, Link, Code, Text, Page, Table } from "@geist-ui/react";
+import useConnected from "../../hooks/useConnected";
 import useContract from "../../hooks/useContract";
 import { useState, useEffect } from "react";
 import Nav from "../../components/Governance/Nav";
+import { ArrowSwitchIcon } from "@primer/octicons-react";
 import Footer from "../../components/Governance/Footer";
 
 const Tokens = () => {
   const isMobile = useMediaQuery("mobile");
-  const { state, height } = useContract();
-  const [data, setData] = useState([]);
 
+  const connected = useConnected();
+  const { state, height } = useContract();
+
+  const [data, setData] = useState([]);
   useEffect(() => {
     if (state) {
       const data = [];
@@ -46,7 +50,16 @@ const Tokens = () => {
 
   return (
     <Page>
-      <Nav />
+      <Nav>
+        {connected && (
+          <span
+            // onClick={() => modal.setVisible(true)}
+            style={{ cursor: "pointer" }}
+          >
+            <ArrowSwitchIcon />
+          </span>
+        )}
+      </Nav>
       <Table data={data}>
         <Table.Column prop="address" label="Address" />
         <Table.Column prop="balance" label="Balance" />
