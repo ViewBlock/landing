@@ -23,7 +23,6 @@ const TransferTokenModal = forwardRef((props, ref) => {
 
   // declare inputs
   const { state: target, bindings: bindingsTarget } = useInput("");
-  // TODO SHOULD BE SELECT
   const { state: quantity, bindings: bindingsQuantity } = useInput("");
 
   const contractId = "v2p-0OhAxDCCMLjQ8e_6_YhT3Tfw2uUAbIQ3PXRtjr4";
@@ -32,7 +31,7 @@ const TransferTokenModal = forwardRef((props, ref) => {
     const input = {
       function: "transfer",
       target: target,
-      qty: quantity,
+      qty: parseInt(quantity),
     };
     console.log(input);
     const state = await interactWrite(arweave, undefined, contractId, input);
