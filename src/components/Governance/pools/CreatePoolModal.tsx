@@ -8,33 +8,32 @@ import {
   Select,
   useToasts,
 } from "@geist-ui/react";
-import {forwardRef, useImperativeHandle, useState} from "react";
+import { forwardRef, useImperativeHandle, useState } from "react";
 
-import {interactWrite} from "smartweave";
+import { interactWrite } from "smartweave";
 
-import {arweave} from "../../../extensions";
+import { arweave } from "../../../extensions";
 
 const CreatePoolModal = forwardRef((props, ref) => {
-  const {setVisible, bindings} = useModal();
+  const { setVisible, bindings } = useModal();
 
   const [loading, setLoading] = useState(false);
 
   const [toasts, setToast] = useToasts();
 
   // declare inputs
-  const {state: pool, bindings: bindingsPool} = useInput("");
+  const { state: pool, bindings: bindingsPool } = useInput("");
   // TODO SHOULD BE SELECT
-  const {
-    state: architecture,
-    setState: setArchitecture,
-  } = useInput("Avalanche");
-  const {state: config, bindings: bindingsConfig} = useInput("{}");
-  const {state: bundleSize, bindings: bindingsBundleSize} = useInput("20");
-  const {state: uploader, bindings: bindingsUploader} = useInput(
+  const { state: architecture, setState: setArchitecture } = useInput(
+    "Avalanche"
+  );
+  const { state: config, bindings: bindingsConfig } = useInput("{}");
+  const { state: bundleSize, bindings: bindingsBundleSize } = useInput("20");
+  const { state: uploader, bindings: bindingsUploader } = useInput(
     "3dX8Cnz3N64nKt2EKmWpKL1EbErFP3RFjxSDyQHQrkI"
   );
-  const {state: archiveRate, bindings: bindingsArchiveRate} = useInput("1");
-  const {state: validatorRate, bindings: bindingsValidatorRate} = useInput(
+  const { state: archiveRate, bindings: bindingsArchiveRate } = useInput("1");
+  const { state: validatorRate, bindings: bindingsValidatorRate } = useInput(
     "1"
   );
 
@@ -54,7 +53,7 @@ const CreatePoolModal = forwardRef((props, ref) => {
     console.log(input);
     const state = await interactWrite(arweave, undefined, contractId, input);
     console.log(state);
-    setToast({text: 'Pool successfully created', type: 'success'})
+    setToast({ text: "Pool successfully created", type: "success" });
   };
 
   useImperativeHandle(ref, () => ({
@@ -86,7 +85,7 @@ const CreatePoolModal = forwardRef((props, ref) => {
             <Select.Option value="Solana">Solana</Select.Option>
           </Select>
           <Text>Config</Text>
-          <Textarea {...bindingsConfig} width={"100%"}/>
+          <Textarea {...bindingsConfig} width={"100%"} />
           <Input {...bindingsBundleSize} width={"100%"}>
             Bundle size
           </Input>

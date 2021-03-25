@@ -19,7 +19,10 @@ const Pools = () => {
         <Nav>
           {connected && (
             <span
-              onClick={() => authNodeModal.current.open()}
+              onClick={() => {
+                // @ts-ignore
+                authNodeModal.current.open();
+              }}
               style={{ cursor: "pointer" }}
             >
               <DatabaseIcon />
