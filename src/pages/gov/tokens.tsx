@@ -1,16 +1,19 @@
 import { useMediaQuery, Link, Code, Text, Page, Table } from "@geist-ui/react";
 import useConnected from "../../hooks/useConnected";
 import useContract from "../../hooks/useContract";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Nav from "../../components/Governance/Nav";
 import { ArrowSwitchIcon } from "@primer/octicons-react";
 import Footer from "../../components/Governance/Footer";
+import TransferTokenModal from "../../components/Governance/tokens/TransferTokensModal";
 
 const Tokens = () => {
   const isMobile = useMediaQuery("mobile");
 
   const connected = useConnected();
   const { state, height } = useContract();
+
+  const transferTokenModal = useRef();
 
   const [data, setData] = useState([]);
   useEffect(() => {
@@ -49,24 +52,31 @@ const Tokens = () => {
   }, [state]);
 
   return (
-    <Page>
-      <Nav>
-        {connected && (
-          <span
-            // onClick={() => modal.setVisible(true)}
-            style={{ cursor: "pointer" }}
-          >
-            <ArrowSwitchIcon />
-          </span>
-        )}
-      </Nav>
-      <Table data={data}>
-        <Table.Column prop="address" label="Address" />
-        <Table.Column prop="balance" label="Balance" />
-        <Table.Column prop="locked" label="Locked Balance" />
-      </Table>
-      <Footer name="Tokens" height={height} />
-    </Page>
+    <>
+      <Page>
+        <Nav>
+          {connected && (
+            <span
+              onClick={() => {
+                // @ts-ignore
+                transferTokenModal.current.open();
+              }}
+              style={{ cursor: "pointer" }}
+            >
+              <ArrowSwitchIcon />
+            </span>
+          )}
+        </Nav>
+        <Table data={data}>
+          <Table.Column prop="address" label="Address" />
+          <Table.Column prop="balance" label="Balance" />
+          <Table.Column prop="locked" label="Locked Balance" />
+        </Table>
+        <Footer name="Tokens" height={height} />
+      </Page>
+
+      <TransferTokenModal ref={transferTokenModal} />
+    </>
   );
 };
 
