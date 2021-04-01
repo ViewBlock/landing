@@ -44,7 +44,7 @@ const CreatePoolModal = forwardRef((props, ref) => {
       function: "createPool",
       pool: pool,
       architecture: architecture,
-      config: config,
+      config: JSON.parse(config),
       bundleSize: bundleSize,
       uploader: uploader,
       archiveRate: archiveRate,
