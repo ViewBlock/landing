@@ -1,17 +1,21 @@
-import { useMediaQuery, Link, Code, Text, Page, Table } from "@geist-ui/react";
+import {useMediaQuery, Link, Code, Text, Page, Table, useToasts, Spinner, Spacer} from "@geist-ui/react";
 import useConnected from "../../hooks/useConnected";
 import useContract from "../../hooks/useContract";
-import { useState, useEffect, useRef } from "react";
+import {useState, useEffect, useRef} from "react";
 import Nav from "../../components/Governance/Nav";
-import { ArrowSwitchIcon } from "@primer/octicons-react";
+import {ArrowSwitchIcon, PlusIcon} from "@primer/octicons-react";
 import Footer from "../../components/Governance/Footer";
 import TransferTokenModal from "../../components/Governance/tokens/TransferTokensModal";
+import {dispense} from "../../contract";
 
 const Tokens = () => {
   const isMobile = useMediaQuery("mobile");
 
+  const [toasts, setToast] = useToasts()
+  const [loading, setLoading] = useState(false)
+
   const connected = useConnected();
-  const { state, height } = useContract();
+  const {state, height} = useContract();
 
   const transferTokenModal = useRef();
 
@@ -24,8 +28,8 @@ const Tokens = () => {
         const locked =
           addr in Object.keys(state.vault || {})
             ? state.vault[addr]
-                .map((element) => element.amount)
-                .reduce((a, b) => a + b, 0)
+              .map((element) => element.amount)
+              .reduce((a, b) => a + b, 0)
             : 0;
 
         const formatted =
@@ -37,7 +41,7 @@ const Tokens = () => {
               target="_blank"
               href={`https://viewblock.io/arweave/address/${addr}`}
             >
-              <Code style={{ color: "#a76c6e" }}>
+              <Code style={{color: "#a76c6e"}}>
                 {isMobile ? formatted : addr}
               </Code>
             </Link>
@@ -56,26 +60,47 @@ const Tokens = () => {
       <Page>
         <Nav>
           {connected && (
+            <>
             <span
-              onClick={() => {
-                // @ts-ignore
-                transferTokenModal.current.open();
+              onClick={async () => {
+                setLoading(true);
+                const id = await dispense()
+                setToast({ text: `Successfully dispensed tokens. Please wait for tx: ${id} to mine.` })
+                setLoading(false)
               }}
-              style={{ cursor: "pointer" }}
+              style={{cursor: "pointer"}}
             >
-              <ArrowSwitchIcon />
+              {
+                loading ? <Spinner
+                  style={{
+                    height: "1em",
+                    width: "1em",
+                  }}
+                /> :  <PlusIcon/>
+              }
             </span>
+              <Spacer x={1}/>
+              <span
+                onClick={() => {
+                  // @ts-ignore
+                  transferTokenModal.current.open();
+                }}
+                style={{cursor: "pointer"}}
+              >
+              <ArrowSwitchIcon/>
+            </span>
+            </>
           )}
         </Nav>
         <Table data={data}>
-          <Table.Column prop="address" label="Address" />
-          <Table.Column prop="balance" label="Balance" />
-          <Table.Column prop="locked" label="Locked Balance" />
+          <Table.Column prop="address" label="Address"/>
+          <Table.Column prop="balance" label="Balance"/>
+          <Table.Column prop="locked" label="Locked Balance"/>
         </Table>
-        <Footer name="Tokens" height={height} />
+        <Footer name="Tokens" height={height}/>
       </Page>
 
-      <TransferTokenModal ref={transferTokenModal} />
+      <TransferTokenModal ref={transferTokenModal}/>
     </>
   );
 };
