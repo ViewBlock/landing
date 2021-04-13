@@ -35,8 +35,14 @@ const Pools = () => {
               <Grid xs>
                 <Card style={{ border: "1px dashed #333" }}>
                   <Text h3>{pool.name}</Text>
-                  <Text b type="secondary">
+                  <Text h5 type="secondary">
+                    {pool.architecture}
+                  </Text>
+                  <Text h5 type="secondary">
                     {pool.balance} $KYVE
+                  </Text>
+                  <Text h5 type="secondary">
+                    {pool.registered.length} Validators online
                   </Text>
                 </Card>
               </Grid>
