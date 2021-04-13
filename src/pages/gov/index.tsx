@@ -20,7 +20,7 @@ const Gov = () => {
             >
               <Text h3>Tokens</Text>
               <Text b type="secondary">
-                {Object.keys(state.balances)
+                {Object.keys(state.balances || {})
                   .map((addr) => state.balances[addr])
                   .reduce((a, b) => a + b, 0)}{" "}
                 $KYVE
@@ -37,7 +37,7 @@ const Gov = () => {
             >
               <Text h3>Pools</Text>
               <Text b type="secondary">
-                {Object.keys(state.pools).length} Pools
+                {state.pools.length} Pools
               </Text>
               <Card.Footer style={{ borderTop: "1px dashed #333" }}>
                 <Code style={{ color: "#a76c6e" }}>/pools</Code>
@@ -62,7 +62,7 @@ const Gov = () => {
             >
               <Text h3>Vault</Text>
               <Text b type="secondary">
-                {Object.keys(state.vault)
+                {Object.keys(state.vault || {})
                   .map((addr) =>
                     state.vault[addr]
                       .map((element) => element.amount)

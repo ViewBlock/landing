@@ -13,6 +13,7 @@ import { forwardRef, useImperativeHandle, useState } from "react";
 import { interactWrite } from "smartweave";
 
 import { arweave } from "../../../extensions";
+import {CONTRACT as CONTRACT_ID} from "@kyve/logic";
 
 const CreatePoolModal = forwardRef((props, ref) => {
   const { setVisible, bindings } = useModal();
@@ -37,8 +38,6 @@ const CreatePoolModal = forwardRef((props, ref) => {
     "1"
   );
 
-  const contractId = "v2p-0OhAxDCCMLjQ8e_6_YhT3Tfw2uUAbIQ3PXRtjr4";
-
   const createPool = async () => {
     const input = {
       function: "createPool",
@@ -51,7 +50,7 @@ const CreatePoolModal = forwardRef((props, ref) => {
       validatorRate: validatorRate,
     };
     console.log(input);
-    const state = await interactWrite(arweave, undefined, contractId, input);
+    const state = await interactWrite(arweave, undefined, CONTRACT_ID, input);
     console.log(state);
     setToast({ text: "Pool successfully created", type: "success" });
   };

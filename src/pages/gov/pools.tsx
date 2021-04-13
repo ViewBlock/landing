@@ -31,12 +31,12 @@ const Pools = () => {
         </Nav>
         {!loading && (
           <Grid.Container gap={1}>
-            {Object.keys(state.pools).map((name) => (
+            {state.pools.map((pool) => (
               <Grid xs>
                 <Card style={{ border: "1px dashed #333" }}>
-                  <Text h3>{name}</Text>
+                  <Text h3>{pool.name}</Text>
                   <Text b type="secondary">
-                    {state.pools[name].balance} $KYVE
+                    {pool.balance} $KYVE
                   </Text>
                 </Card>
               </Grid>

@@ -58,7 +58,7 @@ const Vault = () => {
       </Nav>
       {connected && !loading ? (
         <>
-          {address in state.vault ? (
+          {address in Object.keys(state.vault || {}) ? (
             <Table
               data={state.vault[address].map((entry) => {
                 return {

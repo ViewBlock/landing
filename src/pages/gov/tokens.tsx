@@ -22,7 +22,7 @@ const Tokens = () => {
       for (const addr of Object.keys(state.balances)) {
         const balance = state.balances[addr];
         const locked =
-          addr in state.vault
+          addr in Object.keys(state.vault || {})
             ? state.vault[addr]
                 .map((element) => element.amount)
                 .reduce((a, b) => a + b, 0)
