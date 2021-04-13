@@ -1,6 +1,6 @@
-import {interactWrite} from "smartweave";
-import {arweave} from "./extensions";
-import {CONTRACT as CONTRACT_ID} from "@kyve/logic";
+import { interactWrite } from "smartweave";
+import { arweave } from "./extensions";
+import { CONTRACT as CONTRACT_ID } from "@kyve/logic";
 
 /*
 export   const createPool = async () => {
@@ -20,9 +20,9 @@ export   const createPool = async () => {
   setToast({ text: "Pool successfully created", type: "success" });
 };*/
 
-export const dispense = async(): Promise<any> => {
+export const dispense = async (): Promise<any> => {
   const input = {
-    function: "dispense"
-  }
-  return await interactWrite(arweave, undefined, CONTRACT_ID, input)
-}
+    function: "dispense",
+  };
+  return await interactWrite(arweave, undefined, CONTRACT_ID, input);
+};

@@ -13,7 +13,7 @@ import { forwardRef, useImperativeHandle, useState } from "react";
 import { interactWrite } from "smartweave";
 
 import { arweave } from "../../../extensions";
-import {CONTRACT as CONTRACT_ID} from "@kyve/logic";
+import { CONTRACT as CONTRACT_ID } from "@kyve/logic";
 
 const CreatePoolModal = forwardRef((props, ref) => {
   const { setVisible, bindings } = useModal();

@@ -1,13 +1,15 @@
-import useConnected from "../../hooks/useConnected";
-import useContract from "../../hooks/useContract";
+import useConnected from "../../../hooks/useConnected";
+import useContract from "../../../hooks/useContract";
 import { Page, Grid, Card, Text } from "@geist-ui/react";
-import Nav from "../../components/Governance/Nav";
+import Nav from "../../../components/Governance/Nav";
 import { DatabaseIcon } from "@primer/octicons-react";
-import Footer from "../../components/Governance/Footer";
-import CreatePoolModal from "../../components/Governance/pools/CreatePoolModal";
+import Footer from "../../../components/Governance/Footer";
+import CreatePoolModal from "../../../components/Governance/pools/CreatePoolModal";
 import { useRef } from "react";
+import { useRouter } from "next/router";
 
 const Pools = () => {
+  const router = useRouter();
   const connected = useConnected();
   const { loading, state, height } = useContract();
 
@@ -31,9 +33,14 @@ const Pools = () => {
         </Nav>
         {!loading && (
           <Grid.Container gap={1}>
-            {state.pools.map((pool) => (
-              <Grid xs>
-                <Card style={{ border: "1px dashed #333" }}>
+            {state.pools.map((pool, id) => (
+              <Grid>
+                <Card
+                  style={{ border: "1px dashed #333", cursor: "pointery" }}
+                  onClick={() => {
+                    router.push(`/gov/pools/${id}`);
+                  }}
+                >
                   <Text h3>{pool.name}</Text>
                   <Text h5 type="secondary">
                     {pool.architecture}
