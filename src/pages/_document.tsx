@@ -1,7 +1,10 @@
 import NextDocument, { Html, Head, Main, NextScript } from "next/document";
+import { CssBaseline } from "@geist-ui/react";
 
 class Document extends NextDocument {
   render() {
+    const styles = CssBaseline.flush()
+
     return (
       <Html lang="en">
         <Head>
@@ -41,6 +44,8 @@ class Document extends NextDocument {
             property="twitter:image"
             content="https://kyve.network/og.png"
           />
+
+          {styles}
         </Head>
         <body>
           <Main />
